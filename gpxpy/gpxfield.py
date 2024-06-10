@@ -16,6 +16,7 @@ import inspect as mod_inspect
 import datetime as mod_datetime
 import re as mod_re
 import copy as mod_copy
+import xml.sax.saxutils as mod_saxutils
 
 from . import utils as mod_utils
 
@@ -400,8 +401,7 @@ class GPXExtensionsField(AbstractGPXField):
             result.append(f' {attrib}="{value}"')
         result.append('>')
         if node.text is not None:
-             result.append(node.text.strip())
-
+            result.append(mod_saxutils.escape(node.text).strip())
 
         # Build subelement nodes
         for child in node:
@@ -412,7 +412,7 @@ class GPXExtensionsField(AbstractGPXField):
         # Add tail and close tag
         tail = node.tail
         if tail is not None:
-            tail = tail.strip()
+            tail = mod_saxutils.escape(tail.strip())
         else:
             tail = ''
         if len(node) > 0:

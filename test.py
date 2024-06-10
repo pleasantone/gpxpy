@@ -2649,6 +2649,18 @@ class GPXTests(mod_unittest.TestCase):
 
         self.assertTrue('<name>Test&lt;a&gt;jkljkl&lt;/gpx&gt;</name>' in gpx_2.to_xml())
 
+    def test_xml_chars_encode_decode_extensions(self) -> None:
+        gpx = mod_gpxpy.gpx.GPX()
+        ext = mod_etree.Element('test')
+        ext.text = "Test<a>jkljkl</gpx>"
+        ext.tail = "<&tail>"
+        gpx.extensions.append(ext)
+        print(gpx.to_xml())
+        gpx_2 = mod_gpxpy.parse(gpx.to_xml())
+        self.assertTrue('<test>Test&lt;a&gt;jkljkl&lt;/gpx&gt;</test>' in gpx_2.to_xml())
+        self.assertTrue('&lt;&amp;tail&gt;' in gpx_2.to_xml())
+        
+
     def test_10_to_11_conversion(self) -> None:
         """
         This test checks that reparsing from 1.0 to 1.1 and from 1.1 to 1.0
