@@ -1743,7 +1743,7 @@ class GPXTrack:
         Parameters
         ----------
         location_delta: LocationDelta object
-            Delta (distance/angle or lat/lon offset to apply each point in each
+            Delta (distance/angle or lat/lon) offset to apply each point in each
             segment of the track
         """
         for track_segment in self.segments:
